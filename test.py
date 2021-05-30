@@ -27,19 +27,28 @@ df['mdm'] = abs(df['Low'].shift(1) - df['Low'])
 df['cl'] = abs(df['Close'] - df['Close'].shift(1))
 # df = df.dropna(axis = 0)
 # df['tr'] = max(df['pdm'], df['mdm'], df['cl'])
-a = max(1, 2, 3)
 df['pdm11'] = df['pdm'].rolling(window=11).mean()
-df['mdm11'] = df['mdm'].rolling(window=11).mean() 
+df['mdm11'] = df['mdm'].rolling(window=11).mean()
+df['tr'] = 0 #tr 필드 0으로 초기화
 # ADX 산출위한 TR(True Range(실변동폭)) 구하기
 # 1. 오늘의 고가와 저가 차이(tr1) : 절대값
 # 2. 어제의 종가와 오늘의 고가 차이(tr2) : 절대값
 # 3. 어제의 종가와 오늘의 저가 차이(tr3) : 절대값 
 # 이들 3개값중 가장 큰 값이 실변동폭
-df['tr1'] = abs(df['High'] - df['Low'])
-df['tr2'] = abs(df['High'] - df.iloc[-2]['Close'])
-df['tr3'] = abs(df['Low'] - df.iloc[-2]['Close'])
-df['tr'] = max(df['tr1'], df['tr2'], df['tr3'])
-print(df['tr1'], df['tr2'], df['tr3'])
+i = 1
+for i in range(len(df)) :
+    tr1 = abs(df.iloc[i]['High'] - df.iloc[i]['Low'])
+    tr2 = abs(df.iloc[i]['High'] - df.iloc[i-1]['Close'])
+    tr3 = abs(df.iloc[i]['Low'] - df.iloc[i-1]['Close'])
+    tr = max(tr1, tr2, tr3)
+    # print(tr)
+    df.iloc[i]['tr'] = tr   #엑셀 컬럼 쓰기로 변경 필요!!!
+    i += 1
+# df['tr1'] = abs(df['High'] - df['Low'])
+# df['tr2'] = abs(df['High'] - df.iloc[-2]['Close'])
+# df['tr3'] = abs(df['Low'] - df.iloc[-2]['Close'])
+# df['tr'] = max(df['tr1'], df['tr2'], df['tr3'])
+# print(df['tr1'], df['tr2'], df['tr3'])
 # if p1 == 1:
 #     df['tr'] = df['pdm']
 # elif p2 == True:
