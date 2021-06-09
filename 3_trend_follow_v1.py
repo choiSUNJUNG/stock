@@ -22,9 +22,9 @@ i = 1
 for i in range(len(df_com)):
     # df = pdr.get_data_yahoo(df_com1.iloc[i]['Symbol'], period = '1mo')  # 기간 1month
     df = pdr.get_data_yahoo(df_com.iloc[i]['symbol'], period = '70d')  # 기간 10일
-    df['high_max'] = df['High'].rolling(window=20).max()
-    df['high_max_60'] = df['High'].rolling(window=60).max()
-    df['low_min'] = df['Low'].rolling(window=10).min()
+    df['high_max'] = df['Close'].rolling(window=20).max()
+    df['high_max_60'] = df['Close'].rolling(window=60).max()
+    df['low_min'] = df['Close'].rolling(window=10).min()
     # print(df)
 
     if df.iloc[-2]['Close'] < df.iloc[-3]['high_max'] and df.iloc[-1]['Close'] > df.iloc[-2]['high_max'] and df.iloc[-1]['Close'] > df.iloc[-2]['high_max_60']: 
