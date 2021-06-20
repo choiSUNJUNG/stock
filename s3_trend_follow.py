@@ -24,7 +24,7 @@ now = datetime.datetime.now()
 i = 1
 for i in range(len(df_com)):
     df = pdr.get_data_yahoo(df_com.iloc[i]['symbol'], period = '150d')  # 기간 6개월
-    df['high_max'] = df['Close'].rolling(window=120).max()
+    df['high_max'] = df['Close'].rolling(window=60).max()
     df['ma120'] = df['Close'].rolling(window=120).mean()
     df['vol_mean'] = df['Volume'].rolling(window=120).mean()
     df['vol_max'] = df['Volume'].rolling(window=120).max()
